@@ -19,19 +19,19 @@ const Index = () => {
       icon: BookOpen,
       title: "Free Resources",
       description: "Access quality study materials without any cost",
-      gradient: "from-blue-500/20 to-cyan-500/10",
+      gradient: "from-blue-500/10 to-cyan-500/5",
     },
     {
       icon: Users,
       title: "Community Driven",
       description: "Join thousands of learners on the same journey",
-      gradient: "from-purple-500/20 to-pink-500/10",
+      gradient: "from-purple-500/10 to-pink-500/5",
     },
     {
       icon: Shield,
       title: "Trusted Content",
       description: "Curated from India's top educational platforms",
-      gradient: "from-green-500/20 to-emerald-500/10",
+      gradient: "from-green-500/10 to-emerald-500/5",
     },
   ];
 
@@ -47,21 +47,20 @@ const Index = () => {
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 40, rotateX: -15 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      rotateX: 0,
       transition: {
         type: "spring" as const,
         stiffness: 100,
-        damping: 12,
+        damping: 15,
       },
     },
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden protected-content page-3d">
+    <div className="min-h-screen relative overflow-hidden protected-content">
       {/* Three.js Background */}
       <FloatingGeometry />
 
@@ -82,9 +81,8 @@ const Index = () => {
           {/* Badge */}
           <motion.div
             variants={itemVariants}
-            whileHover={{ scale: 1.05, rotateY: 5 }}
-            className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-8 hover-3d-tilt cursor-default"
-            style={{ transformStyle: "preserve-3d" }}
+            whileHover={{ scale: 1.05 }}
+            className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-8 cursor-default"
           >
             <motion.div
               animate={{ rotate: [0, 360] }}
@@ -105,19 +103,9 @@ const Index = () => {
           >
             <span className="text-foreground">One Platform.</span>
             <br />
-            <motion.span 
-              className="text-gradient-gold inline-block"
-              animate={{ 
-                textShadow: [
-                  "0 0 20px rgba(212, 175, 55, 0)",
-                  "0 0 40px rgba(212, 175, 55, 0.4)",
-                  "0 0 20px rgba(212, 175, 55, 0)"
-                ]
-              }}
-              transition={{ duration: 3, repeat: Infinity }}
-            >
+            <span className="text-gradient-gold inline-block">
               Infinite Free Learning.
-            </motion.span>
+            </span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -133,12 +121,10 @@ const Index = () => {
           <motion.div
             variants={itemVariants}
             whileHover={{ scale: 1.02 }}
-            className="perspective-1000"
           >
             <RippleButton
               onClick={handleExplore}
               size="lg"
-              className="btn-3d"
             >
               Explore Now
               <motion.span
@@ -162,21 +148,14 @@ const Index = () => {
             ].map((stat, index) => (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, y: 20, rotateY: -30 }}
-                animate={{ opacity: 1, y: 0, rotateY: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1.2 + index * 0.15, type: "spring" }}
-                whileHover={{ 
-                  scale: 1.15, 
-                  rotateY: 15,
-                  z: 20,
-                }}
-                className="text-center hover-3d-tilt cursor-default glass rounded-xl p-4"
-                style={{ transformStyle: "preserve-3d" }}
+                whileHover={{ scale: 1.1 }}
+                className="text-center cursor-default glass rounded-xl p-4"
               >
                 <motion.div 
                   className="font-display text-2xl md:text-3xl font-bold text-gradient-gold"
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
                 >
                   {stat.value}
                 </motion.div>
@@ -190,7 +169,7 @@ const Index = () => {
       </main>
 
       {/* Features Section */}
-      <section className="relative py-20 px-6">
+      <section className="relative py-20 px-6" id="about">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -208,74 +187,36 @@ const Index = () => {
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
-                initial={{ opacity: 0, y: 50, rotateX: -20, scale: 0.9 }}
-                whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+                initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ 
                   delay: index * 0.15, 
                   type: "spring", 
-                  stiffness: 120,
-                  damping: 12
+                  stiffness: 100,
+                  damping: 15
                 }}
-                whileHover={{ 
-                  scale: 1.08, 
-                  rotateY: 8,
-                  rotateX: -5,
-                  z: 50,
-                }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.05, y: -5 }}
+                whileTap={{ scale: 0.98 }}
                 className="glass-card p-6 text-center cursor-pointer relative overflow-hidden group"
-                style={{ 
-                  transformStyle: "preserve-3d",
-                  perspective: "1000px"
-                }}
               >
                 {/* Background gradient */}
-                <motion.div 
-                  className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-                />
-
-                {/* Shine effect */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: "200%" }}
-                  transition={{ duration: 0.6 }}
-                />
+                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
                 <motion.div
-                  whileHover={{ rotate: 360, scale: 1.2 }}
-                  transition={{ duration: 0.6, type: "spring" }}
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ type: "spring" }}
                   className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center mx-auto mb-4 relative"
-                  style={{ transform: "translateZ(40px)" }}
                 >
                   <feature.icon className="w-7 h-7 text-gold" />
-                  
-                  {/* Icon glow */}
-                  <motion.div
-                    className="absolute inset-0 rounded-2xl bg-gold/20 blur-xl"
-                    animate={{ opacity: [0.3, 0.6, 0.3] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
                 </motion.div>
 
-                <motion.h3 
-                  className="font-display font-bold text-lg text-foreground mb-2 relative"
-                  style={{ transform: "translateZ(30px)" }}
-                >
+                <h3 className="font-display font-bold text-lg text-foreground mb-2 relative">
                   {feature.title}
-                </motion.h3>
-                <motion.p 
-                  className="text-sm text-muted-foreground relative"
-                  style={{ transform: "translateZ(20px)" }}
-                >
+                </h3>
+                <p className="text-sm text-muted-foreground relative">
                   {feature.description}
-                </motion.p>
-
-                {/* Bottom glow line */}
-                <motion.div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-gold/0 via-gold to-gold/0 group-hover:w-3/4 transition-all duration-500"
-                />
+                </p>
               </motion.div>
             ))}
           </div>
@@ -286,7 +227,9 @@ const Index = () => {
       <DisclaimerSection />
 
       {/* Contact Section */}
-      <ContactSection />
+      <section id="contact">
+        <ContactSection />
+      </section>
 
       {/* Scroll indicator */}
       <motion.div
