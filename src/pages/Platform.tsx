@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { BookOpen, GraduationCap, Library } from "lucide-react";
+import { motion, Variants } from "framer-motion";
+import { BookOpen, GraduationCap, Library, Sparkles } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import InstitutionCard from "@/components/InstitutionCard";
 import OwnerSection from "@/components/OwnerSection";
@@ -47,51 +47,112 @@ const edusKhazana = {
   featured: true,
 };
 
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 100,
+      damping: 12,
+    },
+  },
+};
+
 const Platform = () => {
   return (
     <div className="min-h-screen relative protected-content">
-      {/* Background pattern */}
+      {/* Background pattern with animated elements */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-secondary/20" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_hsl(var(--gold)/0.05)_0%,_transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_hsl(var(--gold)/0.03)_0%,_transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_hsl(var(--gold)/0.08)_0%,_transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_hsl(var(--gold)/0.05)_0%,_transparent_50%)]" />
+        
+        {/* Floating background orbs */}
+        <motion.div
+          className="absolute top-1/4 right-1/4 w-64 h-64 bg-gold/5 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute bottom-1/3 left-1/4 w-48 h-48 bg-blue-500/5 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            opacity: [0.2, 0.4, 0.2],
+          }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        />
       </div>
 
       <Navbar />
 
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-6">
-        <div className="max-w-4xl mx-auto text-center">
+        <motion.div 
+          className="max-w-4xl mx-auto text-center"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-6"
+            variants={itemVariants}
+            whileHover={{ scale: 1.05, rotateY: 5 }}
+            className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-6 cursor-default"
+            style={{ transformStyle: "preserve-3d" }}
           >
-            <GraduationCap className="w-4 h-4 text-gold" />
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            >
+              <GraduationCap className="w-4 h-4 text-gold" />
+            </motion.div>
             <span className="text-sm text-foreground">The Learning Hub</span>
+            <Sparkles className="w-3 h-3 text-gold/60" />
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
+            variants={itemVariants}
             className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-6"
           >
             <span className="text-foreground">Access Top </span>
-            <span className="text-gradient-gold">Educational Platforms</span>
+            <motion.span 
+              className="text-gradient-gold"
+              animate={{ 
+                textShadow: [
+                  "0 0 20px rgba(212, 175, 55, 0)",
+                  "0 0 30px rgba(212, 175, 55, 0.3)",
+                  "0 0 20px rgba(212, 175, 55, 0)"
+                ]
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              Educational Platforms
+            </motion.span>
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            variants={itemVariants}
             className="text-muted-foreground max-w-2xl mx-auto text-lg"
           >
             One unified gateway to India's best free educational resources. 
             No fees. No subscriptions. Pure learning.
           </motion.p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Featured Section - Edu's Khazana */}
@@ -101,17 +162,29 @@ const Platform = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 100 }}
             className="flex items-center justify-center gap-3 mb-8"
           >
-            <Library className="w-6 h-6 text-gold" />
+            <motion.div
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <Library className="w-6 h-6 text-gold" />
+            </motion.div>
             <h2 className="font-display text-2xl font-bold text-foreground">
               The Treasure Chest
             </h2>
           </motion.div>
 
-          <div className="max-w-2xl mx-auto">
+          <motion.div 
+            className="max-w-2xl mx-auto"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 100 }}
+          >
             <InstitutionCard {...edusKhazana} delay={0.1} />
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -122,15 +195,27 @@ const Platform = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 100 }}
             className="flex items-center justify-center gap-3 mb-8"
           >
-            <BookOpen className="w-6 h-6 text-gold" />
+            <motion.div
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <BookOpen className="w-6 h-6 text-gold" />
+            </motion.div>
             <h2 className="font-display text-2xl font-bold text-foreground">
               Partner Platforms
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+          >
             {institutions.map((institution, index) => (
               <InstitutionCard
                 key={institution.name}
@@ -138,7 +223,7 @@ const Platform = () => {
                 delay={0.1 + index * 0.1}
               />
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 

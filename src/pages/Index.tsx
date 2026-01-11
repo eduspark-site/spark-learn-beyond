@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Zap, Shield, BookOpen, Users } from "lucide-react";
+import { ArrowRight, Zap, Shield, BookOpen, Users, Sparkles } from "lucide-react";
 import FloatingGeometry from "@/components/FloatingGeometry";
 import Navbar from "@/components/Navbar";
 import RippleButton from "@/components/RippleButton";
@@ -19,18 +19,46 @@ const Index = () => {
       icon: BookOpen,
       title: "Free Resources",
       description: "Access quality study materials without any cost",
+      gradient: "from-blue-500/20 to-cyan-500/10",
     },
     {
       icon: Users,
       title: "Community Driven",
       description: "Join thousands of learners on the same journey",
+      gradient: "from-purple-500/20 to-pink-500/10",
     },
     {
       icon: Shield,
       title: "Trusted Content",
       description: "Curated from India's top educational platforms",
+      gradient: "from-green-500/20 to-emerald-500/10",
     },
   ];
+
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 40, rotateX: -15 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      rotateX: 0,
+      transition: {
+        type: "spring" as const,
+        stiffness: 100,
+        damping: 12,
+      },
+    },
+  };
 
   return (
     <div className="min-h-screen relative overflow-hidden protected-content page-3d">
@@ -45,35 +73,44 @@ const Index = () => {
 
       {/* Hero Content */}
       <main className="relative min-h-screen flex items-center justify-center px-6">
-        <div className="max-w-4xl mx-auto text-center">
+        <motion.div 
+          className="max-w-4xl mx-auto text-center"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {/* Badge */}
           <motion.div
-            initial={{ opacity: 0, y: 20, rotateX: -30 }}
-            animate={{ opacity: 1, y: 0, rotateX: 0 }}
-            transition={{ duration: 0.6, delay: 0.2, type: "spring" }}
-            className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-8 hover-3d-tilt"
+            variants={itemVariants}
+            whileHover={{ scale: 1.05, rotateY: 5 }}
+            className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-8 hover-3d-tilt cursor-default"
+            style={{ transformStyle: "preserve-3d" }}
           >
-            <Zap className="w-4 h-4 text-gold" />
+            <motion.div
+              animate={{ rotate: [0, 360] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            >
+              <Zap className="w-4 h-4 text-gold" />
+            </motion.div>
             <span className="text-sm text-foreground">
               India's Free Learning Revolution
             </span>
+            <Sparkles className="w-3 h-3 text-gold/60" />
           </motion.div>
 
           {/* Main Heading */}
           <motion.h1
-            initial={{ opacity: 0, y: 30, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.4, type: "spring" }}
+            variants={itemVariants}
             className="font-display text-4xl sm:text-5xl md:text-7xl font-bold mb-6 leading-tight"
           >
             <span className="text-foreground">One Platform.</span>
             <br />
             <motion.span 
-              className="text-gradient-gold"
+              className="text-gradient-gold inline-block"
               animate={{ 
                 textShadow: [
                   "0 0 20px rgba(212, 175, 55, 0)",
-                  "0 0 30px rgba(212, 175, 55, 0.3)",
+                  "0 0 40px rgba(212, 175, 55, 0.4)",
                   "0 0 20px rgba(212, 175, 55, 0)"
                 ]
               }}
@@ -85,9 +122,7 @@ const Index = () => {
 
           {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            variants={itemVariants}
             className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
           >
             Access lectures, batches, and study materials from India's top educators. 
@@ -96,9 +131,8 @@ const Index = () => {
 
           {/* CTA Button */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, rotateX: -20 }}
-            animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-            transition={{ duration: 0.5, delay: 0.8, type: "spring" }}
+            variants={itemVariants}
+            whileHover={{ scale: 1.02 }}
             className="perspective-1000"
           >
             <RippleButton
@@ -107,15 +141,18 @@ const Index = () => {
               className="btn-3d"
             >
               Explore Now
-              <ArrowRight className="w-5 h-5" />
+              <motion.span
+                animate={{ x: [0, 5, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                <ArrowRight className="w-5 h-5" />
+              </motion.span>
             </RippleButton>
           </motion.div>
 
           {/* Stats */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1 }}
+            variants={itemVariants}
             className="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto"
           >
             {[
@@ -127,20 +164,29 @@ const Index = () => {
                 key={stat.label}
                 initial={{ opacity: 0, y: 20, rotateY: -30 }}
                 animate={{ opacity: 1, y: 0, rotateY: 0 }}
-                transition={{ duration: 0.4, delay: 1.2 + index * 0.1, type: "spring" }}
-                whileHover={{ scale: 1.1, rotateY: 10 }}
-                className="text-center hover-3d-tilt cursor-default"
+                transition={{ duration: 0.5, delay: 1.2 + index * 0.15, type: "spring" }}
+                whileHover={{ 
+                  scale: 1.15, 
+                  rotateY: 15,
+                  z: 20,
+                }}
+                className="text-center hover-3d-tilt cursor-default glass rounded-xl p-4"
+                style={{ transformStyle: "preserve-3d" }}
               >
-                <div className="font-display text-2xl md:text-3xl font-bold text-gradient-gold">
+                <motion.div 
+                  className="font-display text-2xl md:text-3xl font-bold text-gradient-gold"
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                >
                   {stat.value}
-                </div>
+                </motion.div>
                 <div className="text-xs text-muted-foreground mt-1">
                   {stat.label}
                 </div>
               </motion.div>
             ))}
           </motion.div>
-        </div>
+        </motion.div>
       </main>
 
       {/* Features Section */}
@@ -150,6 +196,7 @@ const Index = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 100 }}
             className="text-center mb-12"
           >
             <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-4">
@@ -161,32 +208,74 @@ const Index = () => {
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
-                initial={{ opacity: 0, y: 40, rotateX: -15 }}
-                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.15, type: "spring", stiffness: 200 }}
-                whileHover={{ 
-                  scale: 1.05, 
-                  rotateY: 5,
-                  boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)"
+                initial={{ opacity: 0, y: 50, rotateX: -20, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ 
+                  delay: index * 0.15, 
+                  type: "spring", 
+                  stiffness: 120,
+                  damping: 12
                 }}
-                whileTap={{ scale: 0.98 }}
-                className="glass-card p-6 text-center cursor-pointer"
-                style={{ transformStyle: "preserve-3d" }}
+                whileHover={{ 
+                  scale: 1.08, 
+                  rotateY: 8,
+                  rotateX: -5,
+                  z: 50,
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="glass-card p-6 text-center cursor-pointer relative overflow-hidden group"
+                style={{ 
+                  transformStyle: "preserve-3d",
+                  perspective: "1000px"
+                }}
               >
+                {/* Background gradient */}
+                <motion.div 
+                  className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                />
+
+                {/* Shine effect */}
                 <motion.div
-                  whileHover={{ rotate: 15, scale: 1.1 }}
-                  className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center mx-auto mb-4"
-                  style={{ transform: "translateZ(30px)" }}
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "200%" }}
+                  transition={{ duration: 0.6 }}
+                />
+
+                <motion.div
+                  whileHover={{ rotate: 360, scale: 1.2 }}
+                  transition={{ duration: 0.6, type: "spring" }}
+                  className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold/20 to-gold/5 flex items-center justify-center mx-auto mb-4 relative"
+                  style={{ transform: "translateZ(40px)" }}
                 >
                   <feature.icon className="w-7 h-7 text-gold" />
+                  
+                  {/* Icon glow */}
+                  <motion.div
+                    className="absolute inset-0 rounded-2xl bg-gold/20 blur-xl"
+                    animate={{ opacity: [0.3, 0.6, 0.3] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
                 </motion.div>
-                <h3 className="font-display font-bold text-lg text-foreground mb-2">
+
+                <motion.h3 
+                  className="font-display font-bold text-lg text-foreground mb-2 relative"
+                  style={{ transform: "translateZ(30px)" }}
+                >
                   {feature.title}
-                </h3>
-                <p className="text-sm text-muted-foreground">
+                </motion.h3>
+                <motion.p 
+                  className="text-sm text-muted-foreground relative"
+                  style={{ transform: "translateZ(20px)" }}
+                >
                   {feature.description}
-                </p>
+                </motion.p>
+
+                {/* Bottom glow line */}
+                <motion.div
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-gold/0 via-gold to-gold/0 group-hover:w-3/4 transition-all duration-500"
+                />
               </motion.div>
             ))}
           </div>
@@ -208,19 +297,27 @@ const Index = () => {
       >
         <motion.div
           animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex items-start justify-center pt-2"
         >
-          <div className="w-1.5 h-3 rounded-full bg-gold" />
+          <motion.div 
+            className="w-1.5 h-3 rounded-full bg-gold"
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          />
         </motion.div>
       </motion.div>
 
       {/* Footer */}
       <footer className="relative py-8 px-6 border-t border-border/50">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-sm text-muted-foreground">
+          <motion.p 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            className="text-sm text-muted-foreground"
+          >
             © 2024 EduSpark Reloaded. Built with ❤️ for students everywhere.
-          </p>
+          </motion.p>
         </div>
       </footer>
     </div>
