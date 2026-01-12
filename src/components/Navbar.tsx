@@ -19,9 +19,9 @@ const Navbar = () => {
 
   const socialLinks = [
     { name: "WhatsApp", url: "https://whatsapp.com/channel/0029VaoeKYx3mFYErON0tj0P", icon: MessageCircle, color: "text-green-500" },
-    { name: "Telegram", url: "https://t.me/+JkDtn9klaYtlMjA1", icon: Send, color: "text-blue-500" },
-    { name: "Instagram", url: "https://instagram.com", icon: Instagram, color: "text-pink-500" },
-    { name: "YouTube", url: "https://youtube.com", icon: Youtube, color: "text-red-500" },
+    { name: "Telegram", url: "https://t.me/+QZVBgE0CI89iMjll", icon: Send, color: "text-blue-500" },
+    { name: "Instagram", url: "https://www.instagram.com/stylewithnitesh?igsh=MTZxNjBtbDRjNnk0YQ==", icon: Instagram, color: "text-pink-500" },
+    { name: "YouTube", url: "https://youtube.com/@edusparkk-org?si=_PYBM2UfXxWR3Pr-", icon: Youtube, color: "text-red-500" },
   ];
 
   const handleNavClick = (path: string) => {
@@ -36,7 +36,7 @@ const Navbar = () => {
   };
 
   const handleJoinChannel = () => {
-    window.open("https://t.me/+JkDtn9klaYtlMjA1", "_blank", "noopener,noreferrer");
+    window.open("https://t.me/+QZVBgE0CI89iMjll", "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -145,7 +145,7 @@ const Navbar = () => {
               <div className="flex items-center justify-between p-4 border-b border-border">
                 <Link to="/" onClick={() => setIsSidebarOpen(false)} className="flex items-center gap-2">
                   <img src={edusparkLogo} alt="EduSpark" className="w-8 h-8 rounded-lg" />
-                  <span className="font-display font-bold text-foreground">EduSpark Reloaded</span>
+                  <span className="font-display font-bold italic bg-gradient-to-r from-gold via-yellow-400 to-gold-light bg-clip-text text-transparent">EduSpark Reloaded</span>
                 </Link>
                 <motion.button
                   whileHover={{ scale: 1.1, rotate: 90 }}

@@ -13,6 +13,7 @@ interface InstitutionCardProps {
   featured?: boolean;
   delay?: number;
   isComingSoon?: boolean;
+  subtitle?: string;
 }
 
 const InstitutionCard: React.FC<InstitutionCardProps> = ({
@@ -23,6 +24,7 @@ const InstitutionCard: React.FC<InstitutionCardProps> = ({
   featured = false,
   delay = 0,
   isComingSoon = false,
+  subtitle,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [showTelegramPopup, setShowTelegramPopup] = useState(false);
@@ -172,11 +174,14 @@ const InstitutionCard: React.FC<InstitutionCardProps> = ({
 
           {/* Content */}
           <h3 className={cn(
-            "font-display text-xl font-bold mb-2",
+            "font-display text-xl font-bold mb-1",
             featured ? "text-gradient-gold" : "text-foreground"
           )}>
             {name}
           </h3>
+          {subtitle && (
+            <p className="text-xs text-muted-foreground italic mb-2">{subtitle}</p>
+          )}
           <p className="text-muted-foreground text-sm mb-6 line-clamp-3">
             {description}
           </p>

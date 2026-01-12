@@ -1,99 +1,368 @@
-import { motion } from "framer-motion";
-import { Heart, MapPin, Calendar, BookOpen, Sparkles } from "lucide-react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { Heart, MapPin, Calendar, BookOpen, Code, Palette, Terminal, Database, Cpu, Sparkles } from "lucide-react";
+import { useRef, useState } from "react";
+
+interface Creator {
+  name: string;
+  nickname: string;
+  image: string;
+  location: string;
+  birthday: string;
+  preparation: string;
+  description: string;
+  skills: { name: string; icon: React.ElementType }[];
+}
+
+const creators: Creator[] = [
+  {
+    name: "Nitesh Prakash",
+    nickname: "EduSpark / Sparky",
+    image: "https://i.postimg.cc/P5nW2dXn/IMG-20260111-223737.jpg",
+    location: "Bihar, Bharat 🇮🇳",
+    birthday: "26 November",
+    preparation: "NEET (PCMB)",
+    description: "Passionate about making quality education accessible to everyone.",
+    skills: [
+      { name: "Python", icon: Terminal },
+      { name: "Node.js", icon: Database },
+      { name: "TypeScript", icon: Code },
+      { name: "UI/UX Designer", icon: Palette },
+      { name: "Frontend Dev", icon: Code },
+      { name: "Backend Dev", icon: Database },
+    ],
+  },
+  {
+    name: "Shivam Kumar",
+    nickname: "Tech Shivam",
+    image: "https://i.postimg.cc/htWnS6dV/IMG-20260113-WA0015.jpg",
+    location: "Bihar, Bharat 🇮🇳",
+    birthday: "06 January",
+    preparation: "JEE (PCM)",
+    description: "Building the future of accessible technology and education.",
+    skills: [
+      { name: "HTML", icon: Code },
+      { name: "Java", icon: Cpu },
+      { name: "JavaScript", icon: Terminal },
+      { name: "Backend Support", icon: Database },
+      { name: "Python", icon: Terminal },
+      { name: "C++", icon: Code },
+    ],
+  },
+];
+
+const CreatorCard = ({ creator, index }: { creator: Creator; index: number }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 200, damping: 20 });
+  const mouseYSpring = useSpring(y, { stiffness: 200, damping: 20 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+    setIsHovered(false);
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 50, rotateX: 10 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, delay: index * 0.2 }}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+        perspective: 1000,
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={handleMouseLeave}
+      className="relative"
+    >
+      {/* Floating particles */}
+      {isHovered && (
+        <>
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-gold rounded-full pointer-events-none"
+              initial={{ 
+                x: Math.random() * 100 - 50, 
+                y: Math.random() * 100 - 50,
+                opacity: 0,
+                scale: 0
+              }}
+              animate={{ 
+                x: Math.random() * 200 - 100, 
+                y: -100 - Math.random() * 50,
+                opacity: [0, 1, 0],
+                scale: [0, 1.5, 0]
+              }}
+              transition={{ 
+                duration: 1.5 + Math.random(),
+                repeat: Infinity,
+                delay: i * 0.2
+              }}
+            />
+          ))}
+        </>
+      )}
+
+      <motion.div
+        whileHover={{ scale: 1.02 }}
+        transition={{ type: "spring", stiffness: 200, damping: 20 }}
+        className="relative overflow-hidden rounded-3xl"
+        style={{ transformStyle: "preserve-3d" }}
+      >
+        {/* Animated gradient background */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-br from-gold/20 via-purple-500/10 to-blue-500/10"
+          animate={{
+            backgroundPosition: isHovered ? ["0% 0%", "100% 100%"] : "0% 0%",
+          }}
+          transition={{ duration: 3, repeat: Infinity, repeatType: "reverse" }}
+        />
+
+        {/* Glass morphism card */}
+        <div className="relative backdrop-blur-xl bg-background/40 border border-gold/20 p-8 rounded-3xl">
+          {/* Shine effect */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
+            initial={{ x: "-200%" }}
+            animate={isHovered ? { x: "200%" } : { x: "-200%" }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+          />
+
+          {/* Holographic border */}
+          <motion.div
+            className="absolute inset-0 rounded-3xl pointer-events-none"
+            style={{
+              background: isHovered 
+                ? "linear-gradient(135deg, rgba(212, 175, 55, 0.5), rgba(168, 85, 247, 0.3), rgba(59, 130, 246, 0.3))"
+                : "transparent",
+              padding: 2,
+              WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+              WebkitMaskComposite: "xor",
+              maskComposite: "exclude",
+            }}
+            animate={{ opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+          />
+
+          <div className="flex flex-col items-center text-center relative z-10">
+            {/* Avatar with 3D effect */}
+            <motion.div
+              whileHover={{ scale: 1.1, rotateY: 15 }}
+              style={{ transformStyle: "preserve-3d", transform: "translateZ(50px)" }}
+              className="relative mb-6"
+            >
+              {/* Glow ring */}
+              <motion.div
+                className="absolute -inset-3 rounded-full bg-gradient-to-r from-gold via-yellow-400 to-gold-light"
+                animate={{
+                  rotate: 360,
+                  boxShadow: isHovered 
+                    ? ["0 0 20px rgba(212, 175, 55, 0.5)", "0 0 40px rgba(212, 175, 55, 0.8)", "0 0 20px rgba(212, 175, 55, 0.5)"]
+                    : "0 0 20px rgba(212, 175, 55, 0.3)",
+                }}
+                transition={{ 
+                  rotate: { duration: 8, repeat: Infinity, ease: "linear" },
+                  boxShadow: { duration: 2, repeat: Infinity }
+                }}
+              />
+              
+              {/* Avatar container */}
+              <div className="relative w-28 h-28 rounded-full overflow-hidden border-4 border-background">
+                <img 
+                  src={creator.image}
+                  alt={creator.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Flag badge */}
+              <motion.div 
+                className="absolute -bottom-1 -right-1 w-10 h-10 rounded-full bg-gradient-to-r from-gold to-gold-light flex items-center justify-center shadow-lg"
+                whileHover={{ scale: 1.2, rotate: 10 }}
+              >
+                <span className="text-lg">🇮🇳</span>
+              </motion.div>
+            </motion.div>
+
+            {/* Name with 3D depth */}
+            <motion.h3 
+              className="font-display text-2xl md:text-3xl font-bold mb-1"
+              style={{ transform: "translateZ(30px)" }}
+            >
+              <span className="bg-gradient-to-r from-gold via-yellow-400 to-gold-light bg-clip-text text-transparent">
+                {creator.name}
+              </span>
+            </motion.h3>
+
+            <motion.p 
+              className="text-muted-foreground font-medium mb-4"
+              style={{ transform: "translateZ(20px)" }}
+            >
+              Also known as <span className="text-gold font-bold">{creator.nickname}</span>
+            </motion.p>
+
+            {/* Info grid with 3D cards */}
+            <motion.div 
+              className="grid grid-cols-2 gap-3 text-sm text-muted-foreground mb-6 w-full"
+              style={{ transform: "translateZ(15px)" }}
+            >
+              {[
+                { icon: MapPin, text: creator.location },
+                { icon: Calendar, text: `Birthday: ${creator.birthday}` },
+                { icon: BookOpen, text: `Preparing for ${creator.preparation}` },
+                { icon: Heart, text: "Building for better education" },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  className="flex items-center gap-2 bg-background/30 backdrop-blur-sm rounded-xl px-3 py-2 border border-border/50"
+                >
+                  <item.icon className="w-4 h-4 text-gold flex-shrink-0" />
+                  <span className="text-xs truncate">{item.text}</span>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Description */}
+            <motion.p 
+              className="text-foreground/80 text-sm leading-relaxed mb-6"
+              style={{ transform: "translateZ(10px)" }}
+            >
+              {creator.description}
+            </motion.p>
+
+            {/* Skills Section with 3D floating pills */}
+            <motion.div 
+              className="w-full"
+              style={{ transform: "translateZ(25px)" }}
+            >
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <Sparkles className="w-4 h-4 text-gold" />
+                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  Skills & Expertise
+                </span>
+                <Sparkles className="w-4 h-4 text-gold" />
+              </div>
+              
+              <div className="flex flex-wrap justify-center gap-2">
+                {creator.skills.map((skill, i) => (
+                  <motion.div
+                    key={skill.name}
+                    initial={{ opacity: 0, scale: 0, y: 20 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5 + i * 0.1, type: "spring", stiffness: 200 }}
+                    whileHover={{ 
+                      scale: 1.1, 
+                      y: -5,
+                      boxShadow: "0 10px 20px -5px rgba(212, 175, 55, 0.4)",
+                    }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-gold/10 to-gold/5 border border-gold/30 rounded-full cursor-default"
+                  >
+                    <skill.icon className="w-3 h-3 text-gold" />
+                    <span className="text-xs font-medium text-foreground">{skill.name}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
 
 const OwnerSection = () => {
   return (
-    <section className="py-20 px-6">
-      <div className="max-w-4xl mx-auto">
+    <section className="py-20 px-6 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 -z-10">
+        <motion.div
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1, 1.3, 1],
+            x: [0, 50, 0],
+            y: [0, -30, 0],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            x: [0, -40, 0],
+            y: [0, 40, 0],
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </div>
+
+      <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-2">
-            About the Creator
+          <motion.div
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+            className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-4"
+          >
+            <Sparkles className="w-4 h-4 text-gold" />
+            <span className="text-sm text-foreground">Meet The Team</span>
+            <Sparkles className="w-4 h-4 text-gold" />
+          </motion.div>
+          
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
+            About the <span className="text-gradient-gold">Creators</span>
           </h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-gold to-gold-light mx-auto rounded-full" />
+          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto rounded-full" />
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="glass-card p-8 md:p-10"
-        >
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
-            {/* Avatar with actual image */}
-            <motion.div
-              whileHover={{ scale: 1.05, rotate: 3 }}
-              className="relative"
-            >
-              <div className="w-28 h-28 rounded-2xl bg-gradient-to-br from-gold to-gold-light p-1">
-                <div className="w-full h-full rounded-xl overflow-hidden">
-                  <img 
-                    src="https://i.postimg.cc/P5nW2dXn/IMG-20260111-223737.jpg"
-                    alt="Nitesh Prakash"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-              <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-gradient-to-r from-gold to-gold-light flex items-center justify-center">
-                <span className="text-sm">🇮🇳</span>
-              </div>
-            </motion.div>
-
-            {/* Info */}
-            <div className="flex-1 text-center md:text-left">
-              <h3 className="font-display text-2xl md:text-3xl font-bold mb-1">
-                <span className="bg-gradient-to-r from-gold via-yellow-400 to-gold-light bg-clip-text text-transparent">
-                  Nitesh Prakash
-                </span>
-              </h3>
-              <p className="text-muted-foreground font-medium mb-4">
-                Also known as{" "}
-                <span className="text-gradient-gold font-bold">EduSpark</span>
-                {" / "}
-                <span className="text-gradient-gold font-bold">Sparky</span>
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-muted-foreground mb-6">
-                <div className="flex items-center justify-center md:justify-start gap-2">
-                  <MapPin className="w-4 h-4 text-gold" />
-                  <span>Bihar, Bharat 🇮🇳</span>
-                </div>
-                <div className="flex items-center justify-center md:justify-start gap-2">
-                  <Calendar className="w-4 h-4 text-gold" />
-                  <span>Birthday: 26 November</span>
-                </div>
-                <div className="flex items-center justify-center md:justify-start gap-2">
-                  <BookOpen className="w-4 h-4 text-gold" />
-                  <span>Preparing for NEET (PCMB)</span>
-                </div>
-                <div className="flex items-center justify-center md:justify-start gap-2">
-                  <Heart className="w-4 h-4 text-gold" />
-                  <span>Building for better education</span>
-                </div>
-              </div>
-
-              <p className="text-foreground/80 text-sm leading-relaxed">
-                Passionate about making quality education accessible to everyone. 
-                EduSpark Reloaded is my contribution to help students across India 
-                access the best learning resources without barriers.
-              </p>
-            </div>
-          </div>
-        </motion.div>
+        {/* Creators Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          {creators.map((creator, index) => (
+            <CreatorCard key={creator.name} creator={creator} index={index} />
+          ))}
+        </div>
 
         {/* Copyright */}
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="text-center text-muted-foreground text-xs mt-8"
+          transition={{ delay: 0.6 }}
+          className="text-center text-muted-foreground text-sm mt-16"
         >
           © 2024 EduSpark Reloaded. Built with ❤️ for students everywhere.
         </motion.p>
