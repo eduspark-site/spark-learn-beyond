@@ -39,13 +39,23 @@ const institutions = [
   },
 ];
 
-const edusKhazana = {
-  name: "Edu's Khazana",
-  logo: "https://i.postimg.cc/VNbCXTMP/1768150071312.png",
-  description: "Your ultimate treasure chest of knowledge! Access FREE books, notes, and study materials for all competitive exams. Every resource a student needs, all in one place.",
-  link: "https://telegram.me/eduskhazana",
-  featured: true,
-};
+const treasureChestItems = [
+  {
+    name: "Edu's Khazana",
+    logo: "https://i.postimg.cc/VNbCXTMP/1768150071312.png",
+    description: "Your ultimate treasure chest of knowledge! Access FREE books, notes, and study materials for all competitive exams. Every resource a student needs, all in one place.",
+    link: "https://telegram.me/eduskhazana",
+    featured: true,
+  },
+  {
+    name: "Tech Shivam",
+    subtitle: "A part of Eduspark",
+    logo: "https://i.postimg.cc/dtnfff9q/IMG-20260113-025520-247.jpg",
+    description: "Get all MOD apks and premium unlocked Apps - Safe, fast & 100% working.",
+    link: "https://t.me/+eoVUJRuHY401ZDJl",
+    featured: true,
+  },
+];
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -177,13 +187,15 @@ const Platform = () => {
           </motion.div>
 
           <motion.div 
-            className="max-w-2xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100 }}
           >
-            <InstitutionCard {...edusKhazana} delay={0.1} />
+            {treasureChestItems.map((item, index) => (
+              <InstitutionCard key={item.name} {...item} delay={0.1 + index * 0.15} />
+            ))}
           </motion.div>
         </div>
       </section>
