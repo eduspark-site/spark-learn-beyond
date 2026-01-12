@@ -11,7 +11,7 @@ const TelegramPopup: React.FC<TelegramPopupProps> = ({ isOpen, onClose }) => {
   const channels = [
     {
       name: "EduSpark Main Channel",
-      link: "https://t.me/+JkDtn9klaYtlMjA1",
+      link: "https://t.me/+QZVBgE0CI89iMjll",
       icon: Users,
       color: "from-blue-500 to-cyan-500",
     },
