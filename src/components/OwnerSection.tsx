@@ -57,11 +57,13 @@ const CreatorCard = ({ creator, index }: { creator: Creator; index: number }) =>
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const mouseXSpring = useSpring(x, { stiffness: 200, damping: 20 });
-  const mouseYSpring = useSpring(y, { stiffness: 200, damping: 20 });
+  // Smoother springs with higher damping to prevent flickering
+  const mouseXSpring = useSpring(x, { stiffness: 100, damping: 25 });
+  const mouseYSpring = useSpring(y, { stiffness: 100, damping: 25 });
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
+  // Reduced rotation for smoother, less jittery feel
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["6deg", "-6deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-6deg", "6deg"]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -100,29 +102,26 @@ const CreatorCard = ({ creator, index }: { creator: Creator; index: number }) =>
       onMouseLeave={handleMouseLeave}
       className="relative"
     >
-      {/* Floating particles */}
+      {/* Subtle floating particles - reduced for performance */}
       {isHovered && (
         <>
-          {[...Array(6)].map((_, i) => (
+          {[...Array(3)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-1 h-1 bg-gold rounded-full pointer-events-none"
-              initial={{ 
-                x: Math.random() * 100 - 50, 
-                y: Math.random() * 100 - 50,
-                opacity: 0,
-                scale: 0
+              className="absolute w-1 h-1 bg-gold/50 rounded-full pointer-events-none"
+              style={{
+                left: `${30 + i * 20}%`,
+                top: "50%",
               }}
               animate={{ 
-                x: Math.random() * 200 - 100, 
-                y: -100 - Math.random() * 50,
-                opacity: [0, 1, 0],
-                scale: [0, 1.5, 0]
+                y: [-20, -60],
+                opacity: [0, 0.8, 0],
               }}
               transition={{ 
-                duration: 1.5 + Math.random(),
+                duration: 2,
                 repeat: Infinity,
-                delay: i * 0.2
+                delay: i * 0.4,
+                ease: "easeOut"
               }}
             />
           ))}
@@ -130,70 +129,46 @@ const CreatorCard = ({ creator, index }: { creator: Creator; index: number }) =>
       )}
 
       <motion.div
-        whileHover={{ scale: 1.02 }}
-        transition={{ type: "spring", stiffness: 200, damping: 20 }}
+        whileHover={{ scale: 1.01 }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
         className="relative overflow-hidden rounded-3xl"
         style={{ transformStyle: "preserve-3d" }}
       >
-        {/* Animated gradient background */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-gold/20 via-purple-500/10 to-blue-500/10"
-          animate={{
-            backgroundPosition: isHovered ? ["0% 0%", "100% 100%"] : "0% 0%",
-          }}
-          transition={{ duration: 3, repeat: Infinity, repeatType: "reverse" }}
-        />
+        {/* Static gradient background for performance */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gold/10 via-purple-500/5 to-blue-500/5" />
 
         {/* Glass morphism card */}
-        <div className="relative backdrop-blur-xl bg-background/40 border border-gold/20 p-8 rounded-3xl">
-          {/* Shine effect */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
-            initial={{ x: "-200%" }}
-            animate={isHovered ? { x: "200%" } : { x: "-200%" }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-          />
+        <div className="relative backdrop-blur-md bg-background/50 border border-gold/20 p-8 rounded-3xl">
+          {/* Simple shine effect on hover */}
+          {isHovered && (
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -skew-x-12"
+              initial={{ x: "-100%" }}
+              animate={{ x: "200%" }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            />
+          )}
 
-          {/* Holographic border */}
-          <motion.div
-            className="absolute inset-0 rounded-3xl pointer-events-none"
-            style={{
-              background: isHovered 
-                ? "linear-gradient(135deg, rgba(212, 175, 55, 0.5), rgba(168, 85, 247, 0.3), rgba(59, 130, 246, 0.3))"
-                : "transparent",
-              padding: 2,
-              WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-              WebkitMaskComposite: "xor",
-              maskComposite: "exclude",
-            }}
-            animate={{ opacity: isHovered ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
-          />
+          {/* Simple border highlight on hover */}
+          {isHovered && (
+            <div 
+              className="absolute inset-0 rounded-3xl pointer-events-none border border-gold/30"
+            />
+          )}
 
           <div className="flex flex-col items-center text-center relative z-10">
-            {/* Avatar with 3D effect */}
+            {/* Avatar with subtle 3D effect */}
             <motion.div
-              whileHover={{ scale: 1.1, rotateY: 15 }}
-              style={{ transformStyle: "preserve-3d", transform: "translateZ(50px)" }}
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              style={{ transformStyle: "preserve-3d" }}
               className="relative mb-6"
             >
-              {/* Glow ring */}
-              <motion.div
-                className="absolute -inset-3 rounded-full bg-gradient-to-r from-gold via-yellow-400 to-gold-light"
-                animate={{
-                  rotate: 360,
-                  boxShadow: isHovered 
-                    ? ["0 0 20px rgba(212, 175, 55, 0.5)", "0 0 40px rgba(212, 175, 55, 0.8)", "0 0 20px rgba(212, 175, 55, 0.5)"]
-                    : "0 0 20px rgba(212, 175, 55, 0.3)",
-                }}
-                transition={{ 
-                  rotate: { duration: 8, repeat: Infinity, ease: "linear" },
-                  boxShadow: { duration: 2, repeat: Infinity }
-                }}
-              />
+              {/* Subtle ring */}
+              <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-gold/40 via-yellow-400/30 to-gold-light/40 opacity-60" />
               
               {/* Avatar container */}
-              <div className="relative w-28 h-28 rounded-full overflow-hidden border-4 border-background">
+              <div className="relative w-28 h-28 rounded-full overflow-hidden border-3 border-gold/30">
                 <img 
                   src={creator.image}
                   alt={creator.name}
@@ -203,8 +178,9 @@ const CreatorCard = ({ creator, index }: { creator: Creator; index: number }) =>
 
               {/* Flag badge */}
               <motion.div 
-                className="absolute -bottom-1 -right-1 w-10 h-10 rounded-full bg-gradient-to-r from-gold to-gold-light flex items-center justify-center shadow-lg"
-                whileHover={{ scale: 1.2, rotate: 10 }}
+                className="absolute -bottom-1 -right-1 w-10 h-10 rounded-full bg-gradient-to-r from-gold to-gold-light flex items-center justify-center shadow-md"
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 300 }}
               >
                 <span className="text-lg">🇮🇳</span>
               </motion.div>

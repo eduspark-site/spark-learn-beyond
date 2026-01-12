@@ -6,6 +6,25 @@ import OwnerSection from "@/components/OwnerSection";
 
 const institutions = [
   {
+    name: "Vidyakul",
+    logo: "https://i.postimg.cc/CLXDdSBQ/images-(2).png",
+    description: "India's first vernacular e-learning platform that empowers state-board students by providing high-quality education in their native regional languages.",
+    link: "https://www.vidyakul.com/",
+  },
+  {
+    name: "Padhle Akshay",
+    logo: "https://i.postimg.cc/FK9KHBZw/images.jpg",
+    description: "A popular community-driven platform known for its 'brother-like' teaching vibe, offering humorous meme-based booklets and simplified notes to turn 'backbenchers into toppers.'",
+    link: "https://padhleakshay.com/",
+  },
+  {
+    name: "Next Topper",
+    logo: "https://i.postimg.cc/ZRHpqNpW/images-(1).png",
+    description: "A fast-growing platform focused on Class 9–12 students, offering result-oriented online courses and simplified notes to help learners excel in their board exams.",
+    link: "/coming-soon?platform=Next%20Topper",
+    isComingSoon: true,
+  },
+  {
     name: "Physics Wallah",
     logo: "https://i.postimg.cc/7ZzH9yBj/e94d95f8db2942a231b82f7ba98234f0.jpg",
     description: "A revolution in Indian ed-tech that provides highly affordable, top-quality coaching for JEE, NEET, and board exams through Alakh Pandey's engaging teaching style.",
@@ -13,29 +32,11 @@ const institutions = [
     isComingSoon: true,
   },
   {
-    name: "Next Topper",
-    logo: "https://i.postimg.cc/ZRHpqNpW/images-(1).png",
-    description: "A fast-growing platform focused on Class 9–12 students, offering result-oriented online courses and simplified notes to help learners excel in their board exams.",
-    link: "https://nexttoppers.com/",
-  },
-  {
-    name: "Vidyakul",
-    logo: "https://i.postimg.cc/CLXDdSBQ/images-(2).png",
-    description: "India's first vernacular e-learning platform that empowers state-board students by providing high-quality education in their native regional languages.",
-    link: "https://www.vidyakul.com/",
-  },
-  {
     name: "Unacademy",
     logo: "https://i.postimg.cc/L40g02TK/1-Ld-FNhp-Oe7u-In-b-HK9VUin-A.jpg",
     description: "One of India's largest learning platforms that connects millions of students with top educators for competitive exams like UPSC, IIT-JEE, and NEET through live interactive sessions.",
     link: "/coming-soon?platform=Unacademy",
     isComingSoon: true,
-  },
-  {
-    name: "Padhle Akshay",
-    logo: "https://i.postimg.cc/FK9KHBZw/images.jpg",
-    description: "A popular community-driven platform known for its 'brother-like' teaching vibe, offering humorous meme-based booklets and simplified notes to turn 'backbenchers into toppers.'",
-    link: "https://padhleakshay.com/",
   },
 ];
 
