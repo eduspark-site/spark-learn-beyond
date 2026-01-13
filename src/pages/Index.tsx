@@ -71,7 +71,7 @@ const Index = () => {
       <Navbar />
 
       {/* Hero Content */}
-      <main className="relative min-h-screen flex items-center justify-center px-6">
+      <main className="relative min-h-screen flex items-start sm:items-center justify-center px-4 sm:px-6 pt-28 sm:pt-0 pb-12">
         <motion.div 
           className="max-w-4xl mx-auto text-center"
           variants={containerVariants}
@@ -139,7 +139,7 @@ const Index = () => {
           {/* Stats */}
           <motion.div
             variants={itemVariants}
-            className="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto"
+            className="mt-12 sm:mt-16 grid grid-cols-3 gap-3 sm:gap-8 max-w-xs sm:max-w-lg mx-auto"
           >
             {[
               { value: "6+", label: "Platforms" },
@@ -152,7 +152,7 @@ const Index = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1.2 + index * 0.15, type: "spring" }}
                 whileHover={{ scale: 1.1 }}
-                className="text-center cursor-default glass rounded-xl p-4"
+                className="text-center cursor-default glass rounded-xl p-3 sm:p-4"
               >
                 <motion.div 
                   className="font-display text-2xl md:text-3xl font-bold text-gradient-gold"
