@@ -48,7 +48,7 @@ const Navbar = () => {
         className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-4"
       >
         <div className="max-w-7xl mx-auto">
-          <div className="glass rounded-2xl px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+          <div className="glass rounded-2xl px-4 sm:px-6 py-3 flex items-center justify-between gap-2 sm:gap-4 min-w-0">
             {/* Hamburger Menu Button */}
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -61,7 +61,7 @@ const Navbar = () => {
             </motion.button>
 
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 group flex-shrink-0">
+            <Link to="/" className="flex items-center gap-2 group min-w-0">
               <motion.div
                 whileHover={{ rotate: 10, scale: 1.05 }}
                 transition={{ duration: 0.3 }}
@@ -74,7 +74,7 @@ const Navbar = () => {
                 />
               </motion.div>
               <div className="flex flex-col">
-                <span className="font-display font-bold text-lg italic bg-gradient-to-r from-gold via-yellow-400 to-gold-light bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">
+                <span className="font-display font-bold text-base sm:text-lg italic bg-gradient-to-r from-gold via-yellow-400 to-gold-light bg-clip-text text-transparent group-hover:opacity-80 transition-opacity block truncate max-w-[10.5rem] sm:max-w-none">
                   EduSpark Reloaded
                 </span>
                 <span className="text-xs text-muted-foreground -mt-1 hidden sm:block">Version 2.0</span>

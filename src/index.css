@@ -111,6 +111,13 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   body {
@@ -134,6 +141,14 @@
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid hsl(var(--glass-border));
     box-shadow: 0 8px 32px hsl(var(--glass-shadow));
+  }
+
+  @media (max-width: 640px) {
+    .glass {
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 6px 18px hsl(var(--glass-shadow));
+    }
   }
 
   .glass-card {
