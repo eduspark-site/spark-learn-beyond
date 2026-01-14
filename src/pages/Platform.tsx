@@ -9,13 +9,13 @@ const institutions = [
     name: "Vidyakul",
     logo: "https://i.postimg.cc/CLXDdSBQ/images-(2).png",
     description: "India's first vernacular e-learning platform that empowers state-board students by providing high-quality education in their native regional languages.",
-    link: "https://www.vidyakul.com/",
+    link: "https://eduspark-vidyakul.netlify.app",
   },
   {
     name: "Padhle Akshay",
     logo: "https://i.postimg.cc/FK9KHBZw/images.jpg",
     description: "A popular community-driven platform known for its 'brother-like' teaching vibe, offering humorous meme-based booklets and simplified notes to turn 'backbenchers into toppers.'",
-    link: "https://padhleakshay.com/",
+    link: "https://eduspark-padhleakshay.netlify.app/",
   },
   {
     name: "Next Topper",
@@ -55,6 +55,7 @@ const treasureChestItems = [
     description: "Get all MOD apks and premium unlocked Apps - Safe, fast & 100% working.",
     link: "https://t.me/+eoVUJRuHY401ZDJl",
     featured: true,
+    directLink: true, // Skip popup, go directly
   },
 ];
 
@@ -91,23 +92,9 @@ const Platform = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_hsl(var(--gold)/0.08)_0%,_transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_hsl(var(--gold)/0.05)_0%,_transparent_50%)]" />
         
-        {/* Floating background orbs */}
-        <motion.div
-          className="absolute top-1/4 right-1/4 w-64 h-64 bg-gold/5 rounded-full blur-3xl"
-          animate={{ 
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute bottom-1/3 left-1/4 w-48 h-48 bg-blue-500/5 rounded-full blur-3xl"
-          animate={{ 
-            scale: [1.2, 1, 1.2],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        />
+      {/* Static background orbs - no animation for performance */}
+        <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-gold/5 rounded-full blur-3xl opacity-40" />
+        <div className="absolute bottom-1/3 left-1/4 w-48 h-48 bg-blue-500/5 rounded-full blur-3xl opacity-30" />
       </div>
 
       <Navbar />

@@ -112,6 +112,7 @@
   html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -124,6 +125,20 @@
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
     transition: background-color 0.5s ease, color 0.3s ease;
+    /* GPU acceleration for smooth scrolling */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: scroll-position;
+  }
+
+  /* Optimize all motion elements for GPU */
+  [style*="transform"],
+  [class*="motion"],
+  [class*="animate"] {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
   }
 
   /* Custom selection color */
