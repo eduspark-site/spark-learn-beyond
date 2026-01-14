@@ -158,7 +158,7 @@ const Navbar = () => {
               </div>
 
               {/* Navigation Links */}
-              <div className="flex-1 py-4">
+              <div className="py-4">
                 {navLinks.map((link, index) => (
                   <motion.div
                     key={link.name}
@@ -182,9 +182,9 @@ const Navbar = () => {
                 ))}
               </div>
 
-              {/* Social Links Section */}
-              <div className="border-t border-border p-4">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">
+              {/* Social Links Section - Right below nav links */}
+              <div className="px-4 pb-4">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 px-2">
                   Connect With Us
                 </p>
                 <div className="space-y-1">
@@ -207,6 +207,10 @@ const Navbar = () => {
                   ))}
                 </div>
               </div>
+
+              {/* Spacer */}
+              <div className="flex-1" />
+
             </motion.div>
           </>
         )}
