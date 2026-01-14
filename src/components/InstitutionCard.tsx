@@ -14,6 +14,7 @@ interface InstitutionCardProps {
   delay?: number;
   isComingSoon?: boolean;
   subtitle?: string;
+  directLink?: boolean;
 }
 
 const InstitutionCard: React.FC<InstitutionCardProps> = ({
@@ -25,6 +26,7 @@ const InstitutionCard: React.FC<InstitutionCardProps> = ({
   delay = 0,
   isComingSoon = false,
   subtitle,
+  directLink = false,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [showTelegramPopup, setShowTelegramPopup] = useState(false);
@@ -63,8 +65,19 @@ const InstitutionCard: React.FC<InstitutionCardProps> = ({
   const handleButtonClick = (e: React.MouseEvent) => {
     if (!isComingSoon && !link.startsWith("/")) {
       e.preventDefault();
-      setShowTelegramPopup(true);
+      if (directLink) {
+        // Direct link - open immediately
+        window.open(link, "_blank", "noopener,noreferrer");
+      } else {
+        setShowTelegramPopup(true);
+      }
     }
+  };
+  
+  const handlePopupClose = () => {
+    setShowTelegramPopup(false);
+    // Redirect to the card's link after popup closes
+    window.open(link, "_blank", "noopener,noreferrer");
   };
 
   const isInternalLink = link.startsWith("/");
@@ -243,7 +256,7 @@ const InstitutionCard: React.FC<InstitutionCardProps> = ({
       {/* Telegram Popup */}
       <TelegramPopup 
         isOpen={showTelegramPopup} 
-        onClose={() => setShowTelegramPopup(false)} 
+        onClose={handlePopupClose} 
       />
     </>
   );
