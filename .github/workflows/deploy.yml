@@ -16,24 +16,20 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      # 1. Main Site Build
       - name: Build Main Site
         run: |
           npm install
           npm run build
 
-      # 2. Padhle Akshay Build (Yahan variables connect kiye hain)
       - name: Build Padhle Akshay
-        env:
-          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
         run: |
           cd padhle-akshay
+          echo "VITE_SUPABASE_URL=${{ vars.VITE_SUPABASE_URL }}" > .env
+          echo "VITE_SUPABASE_ANON_KEY=${{ vars.VITE_SUPABASE_ANON_KEY }}" >> .env
           npm install
           npm run build
           cd ..
 
-      # 3. Merging Padhle Akshay into Main Dist
       - name: Merge Projects
         run: |
           mkdir -p ./dist/padhle-akshay
