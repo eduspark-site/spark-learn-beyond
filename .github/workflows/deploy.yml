@@ -22,8 +22,11 @@ jobs:
           npm install
           npm run build
 
-      # 2. Padhle Akshay Build
+      # 2. Padhle Akshay Build (Yahan variables connect kiye hain)
       - name: Build Padhle Akshay
+        env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
         run: |
           cd padhle-akshay
           npm install
