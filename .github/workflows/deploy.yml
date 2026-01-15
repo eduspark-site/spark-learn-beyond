@@ -30,33 +30,24 @@ jobs:
           npm run build
           cd ..
 
-      - name: Build Vidyakul
-        continue-on-error: true
-        run: |
-          cd vidyakul
-          # Fresh install ignoring legacy conflicts to fix the 'Red' errors
-          npm install --legacy-peer-deps
-          npm run build
-          cd ..
-
       - name: Merge All Projects
         run: |
+          # Create folders in the main output directory
           mkdir -p ./dist/padhle-akshay
           mkdir -p ./dist/vidyakul
           
-          # 1. Protect Padhle Akshay (Verified Build)
+          # 1. Copy Padhle Akshay (Verified safe)
           if [ -d "./padhle-akshay/dist" ]; then
             cp -rf ./padhle-akshay/dist/* ./dist/padhle-akshay/
             cp ./padhle-akshay/dist/index.html ./dist/padhle-akshay/404.html
           fi
           
-          # 2. Merge Vidyakul (Only if dist was created)
-          if [ -d "./vidyakul/dist" ]; then
-            cp -rf ./vidyakul/dist/* ./dist/vidyakul/
-            cp ./vidyakul/dist/index.html ./dist/vidyakul/404.html
-          fi
+          # 2. Direct Copy Vidyakul (NO BUILD - DIRECT FILES)
+          # This moves your uploaded files directly to the site
+          cp -rf ./vidyakul/* ./dist/vidyakul/ 2>/dev/null || true
+          cp ./vidyakul/index.html ./dist/vidyakul/404.html 2>/dev/null || true
           
-          # 3. Maintain Custom Domain CNAME
+          # 3. Custom Domain
           cp CNAME ./dist/ 2>/dev/null || echo "edusparkofficial.site" > ./dist/CNAME
 
       - uses: actions/upload-pages-artifact@v3
