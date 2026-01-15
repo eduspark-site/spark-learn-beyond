@@ -34,28 +34,27 @@ jobs:
         continue-on-error: true
         run: |
           cd vidyakul
-          # Force install to handle Bun-lock and legacy dependencies
+          # Fresh install without lockfile conflicts
           npm install --legacy-peer-deps
           npm run build
           cd ..
 
       - name: Merge All Projects
         run: |
-          # Create sub-folders in main dist
           mkdir -p ./dist/padhle-akshay
           mkdir -p ./dist/vidyakul
           
-          # 1. Padhle Akshay (Always Protected)
+          # 1. Padhle Akshay (Protected)
           cp -rf ./padhle-akshay/dist/* ./dist/padhle-akshay/
           cp ./padhle-akshay/dist/index.html ./dist/padhle-akshay/404.html
           
-          # 2. Vidyakul (Copy only if build succeeded)
+          # 2. Vidyakul (Merge only if dist folder exists)
           if [ -d "./vidyakul/dist" ]; then
             cp -rf ./vidyakul/dist/* ./dist/vidyakul/
             cp ./vidyakul/dist/index.html ./dist/vidyakul/404.html
           fi
           
-          # 3. Maintain CNAME for Custom Domain
+          # 3. Maintain CNAME
           cp CNAME ./dist/ 2>/dev/null || echo "edusparkofficial.site" > ./dist/CNAME
 
       - uses: actions/upload-pages-artifact@v3
