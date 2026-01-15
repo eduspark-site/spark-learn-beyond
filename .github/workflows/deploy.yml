@@ -30,13 +30,16 @@ jobs:
           npm run build
           cd ..
 
-      - name: Build Vidyakul
+      - name: Process Vidyakul
         continue-on-error: true
         run: |
           cd vidyakul
-          # Fresh install without lockfile conflicts
-          npm install --legacy-peer-deps
-          npm run build
+          # If a build folder already exists from your local/drag-drop, we use it.
+          # If not, we treat the root files as the deployment target.
+          if [ ! -d "dist" ]; then
+            mkdir -p dist
+            cp -rf ./* ./dist/ 2>/dev/null || true
+          fi
           cd ..
 
       - name: Merge All Projects
@@ -44,17 +47,17 @@ jobs:
           mkdir -p ./dist/padhle-akshay
           mkdir -p ./dist/vidyakul
           
-          # 1. Padhle Akshay (Protected)
+          # 1. Copy Padhle Akshay (Safe & Protected)
           cp -rf ./padhle-akshay/dist/* ./dist/padhle-akshay/
           cp ./padhle-akshay/dist/index.html ./dist/padhle-akshay/404.html
           
-          # 2. Vidyakul (Merge only if dist folder exists)
+          # 2. Copy Vidyakul
           if [ -d "./vidyakul/dist" ]; then
             cp -rf ./vidyakul/dist/* ./dist/vidyakul/
             cp ./vidyakul/dist/index.html ./dist/vidyakul/404.html
           fi
           
-          # 3. Maintain CNAME
+          # 3. Handle CNAME
           cp CNAME ./dist/ 2>/dev/null || echo "edusparkofficial.site" > ./dist/CNAME
 
       - uses: actions/upload-pages-artifact@v3
