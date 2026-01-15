@@ -34,7 +34,7 @@ jobs:
       - name: Merge Projects
         run: |
           mkdir -p ./dist/padhle-akshay
-          cp -r ./padhle-akshay/dist/* ./dist/padhle-akshay/
+          cp -rf ./padhle-akshay/dist/* ./dist/padhle-akshay/
 
       - uses: actions/upload-pages-artifact@v3
         with:
