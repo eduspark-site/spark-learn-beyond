@@ -34,27 +34,29 @@ jobs:
         continue-on-error: true
         run: |
           cd vidyakul
+          # Fresh install ignoring legacy conflicts to fix the 'Red' errors
           npm install --legacy-peer-deps
           npm run build
           cd ..
 
-      - name: Merge Projects
+      - name: Merge All Projects
         run: |
           mkdir -p ./dist/padhle-akshay
           mkdir -p ./dist/vidyakul
           
-          # Protect Padhle Akshay
+          # 1. Protect Padhle Akshay (Verified Build)
           if [ -d "./padhle-akshay/dist" ]; then
             cp -rf ./padhle-akshay/dist/* ./dist/padhle-akshay/
             cp ./padhle-akshay/dist/index.html ./dist/padhle-akshay/404.html
           fi
           
-          # Merge Vidyakul
+          # 2. Merge Vidyakul (Only if dist was created)
           if [ -d "./vidyakul/dist" ]; then
             cp -rf ./vidyakul/dist/* ./dist/vidyakul/
             cp ./vidyakul/dist/index.html ./dist/vidyakul/404.html
           fi
           
+          # 3. Maintain Custom Domain CNAME
           cp CNAME ./dist/ 2>/dev/null || echo "edusparkofficial.site" > ./dist/CNAME
 
       - uses: actions/upload-pages-artifact@v3
