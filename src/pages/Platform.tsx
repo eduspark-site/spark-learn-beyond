@@ -15,7 +15,8 @@ const institutions = [
     name: "Padhle Akshay",
     logo: "https://i.postimg.cc/FK9KHBZw/images.jpg",
     description: "A popular community-driven platform known for its 'brother-like' teaching vibe, offering humorous meme-based booklets and simplified notes to turn 'backbenchers into toppers.'",
-    link: "https://eduspark-padhleakshay.netlify.app/",
+    link: "/padhle-akshay/",
+    directLink: true,
   },
   {
     name: "Next Topper",
