@@ -1,0 +1,272 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
+
+    --card: 0 0% 98%;
+    --card-foreground: 0 0% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 45 100% 50%;
+    --primary-foreground: 0 0% 10%;
+
+    --secondary: 45 30% 90%;
+    --secondary-foreground: 0 0% 10%;
+
+    --muted: 45 20% 95%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 45 100% 50%;
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 45 20% 90%;
+    --input: 45 20% 90%;
+    --ring: 45 100% 50%;
+
+    --radius: 1rem;
+
+    /* Custom design tokens */
+    --yellow-glow: 0 0 20px hsl(45 100% 50% / 0.4), 0 0 40px hsl(45 100% 50% / 0.2);
+    --yellow-light: 45 100% 85%;
+    --yellow-dark: 45 100% 35%;
+  }
+
+  .dark {
+    --background: 0 0% 5%;
+    --foreground: 0 0% 95%;
+
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 45 100% 50%;
+    --primary-foreground: 0 0% 5%;
+
+    --secondary: 45 20% 15%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 45 100% 50%;
+    --accent-foreground: 0 0% 5%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 45 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+  }
+
+  .dark body {
+    background: 
+      radial-gradient(ellipse 80% 50% at 50% -20%, hsl(45 100% 50% / 0.08), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 100%, hsl(45 100% 50% / 0.05), transparent),
+      hsl(0 0% 5%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply relative overflow-hidden rounded-2xl bg-card border border-border shadow-sm;
+  }
+
+  .dark .glass-card {
+    background: hsl(0 0% 10% / 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid hsl(0 0% 100% / 0.08);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300 ease-out;
+  }
+
+  .glass-card-hover:hover {
+    @apply shadow-lg;
+    border-color: hsl(45 100% 50% / 0.3);
+    transform: translateY(-4px) scale(1.02);
+  }
+
+  .dark .glass-card-hover:hover {
+    box-shadow: var(--yellow-glow);
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(45 100% 50%), hsl(45 80% 40%));
+  }
+
+  .glow-text {
+    text-shadow: 0 0 10px hsl(45 100% 50% / 0.5), 0 0 20px hsl(45 100% 50% / 0.3);
+  }
+
+  .search-input {
+    @apply glass-card px-4 py-3 w-full text-foreground placeholder:text-muted-foreground focus:outline-none transition-all duration-300;
+  }
+
+  .search-input:focus {
+    border-color: hsl(45 100% 50% / 0.5);
+    box-shadow: 0 0 0 2px hsl(45 100% 50% / 0.2);
+  }
+
+  .skeleton {
+    @apply relative overflow-hidden bg-muted rounded-2xl;
+  }
+
+  .skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, hsl(45 100% 50% / 0.1), transparent);
+    animation: skeleton-shimmer 1.5s infinite;
+  }
+
+  @keyframes skeleton-shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 relative overflow-hidden;
+    background: linear-gradient(135deg, hsl(45 100% 50%), hsl(45 80% 40%));
+    color: hsl(0 0% 10%);
+  }
+
+  .btn-primary:hover {
+    box-shadow: var(--yellow-glow);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 border-2 border-primary text-primary;
+    background: transparent;
+  }
+
+  .btn-secondary:hover {
+    background: hsl(45 100% 50% / 0.1);
+    transform: translateY(-2px);
+  }
+
+  .btn-back {
+    @apply px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center gap-2 bg-muted hover:bg-muted/80;
+  }
+
+  .screen-enter {
+    animation: screen-enter 0.4s ease-out forwards;
+  }
+
+  @keyframes screen-enter {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .fade-in {
+    animation: fade-in 0.3s ease-out forwards;
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .stagger-item {
+    opacity: 0;
+    animation: fade-in 0.4s ease-out forwards;
+  }
+
+  .badge {
+    @apply px-3 py-1 rounded-full text-xs font-medium bg-primary/20 text-primary border border-primary/30;
+  }
+
+  .lecture-number {
+    @apply w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 bg-primary text-primary-foreground;
+  }
+
+  .error-card {
+    @apply glass-card p-8 text-center border-destructive/30;
+  }
+
+  .pulse-dot {
+    @apply w-2 h-2 rounded-full bg-primary;
+    animation: pulse-glow 2s infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 1;
+      box-shadow: 0 0 10px hsl(45 100% 50%);
+    }
+    50% {
+      opacity: 0.5;
+      box-shadow: 0 0 20px hsl(45 100% 50%);
+    }
+  }
+
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .rotate-slow {
+    animation: rotate-slow 20s linear infinite;
+  }
+
+  @keyframes rotate-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+}
+
+@layer utilities {
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+}
