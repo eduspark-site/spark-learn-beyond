@@ -14,9 +14,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Build Padhle Akshay
+        # Keeps your existing project safe and working
         run: |
           cd padhle-akshay
           echo "VITE_SUPABASE_URL=${{ vars.VITE_SUPABASE_URL }}" > .env
@@ -25,34 +25,24 @@ jobs:
           npm run build
           cd ..
 
-      - name: Build Vidyakul
-        # Protection: Even if this fails, Akshay stays green
-        continue-on-error: true
+      - name: Prepare Final Deployment
         run: |
-          cd vidyakul
-          # Deleting conflicting lockfiles
-          rm -f bun.lockb package-lock.json
-          npm install --legacy-peer-deps
-          npm run build
-          cd ..
-
-      - name: Merge All Projects
-        run: |
+          # 1. Create main folder
           mkdir -p ./dist/padhle-akshay
           mkdir -p ./dist/vidyakul
           
-          # Copy Padhle Akshay (Verified safe)
+          # 2. Copy Padhle Akshay (Using its successful build)
           if [ -d "./padhle-akshay/dist" ]; then
             cp -rf ./padhle-akshay/dist/* ./dist/padhle-akshay/
             cp ./padhle-akshay/dist/index.html ./dist/padhle-akshay/404.html
           fi
           
-          # Copy Vidyakul (Only if build succeeded)
-          if [ -d "./vidyakul/dist" ]; then
-            cp -rf ./vidyakul/dist/* ./dist/vidyakul/
-            cp ./vidyakul/dist/index.html ./dist/vidyakul/404.html
-          fi
+          # 3. DIRECT DEPLOY VIDYAKUL (No npm install, no build)
+          # We just move the files you uploaded directly to the path
+          cp -rf ./vidyakul/* ./dist/vidyakul/ 2>/dev/null || true
+          cp ./vidyakul/index.html ./dist/vidyakul/404.html 2>/dev/null || true
           
+          # 4. Handle Custom Domain
           cp CNAME ./dist/ 2>/dev/null || echo "edusparkofficial.site" > ./dist/CNAME
 
       - uses: actions/upload-pages-artifact@v3
