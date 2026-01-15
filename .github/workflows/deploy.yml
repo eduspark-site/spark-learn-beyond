@@ -31,30 +31,31 @@ jobs:
           cd ..
 
       - name: Build Vidyakul
-        continue-on-error: true  # <--- YEH LINE PADLE AKSHAY KO BACHAYEGI
+        continue-on-error: true
         run: |
           cd vidyakul
-          npm install
+          # Force install to handle Bun-lock and legacy dependencies
+          npm install --legacy-peer-deps
           npm run build
           cd ..
 
       - name: Merge All Projects
         run: |
-          # 1. Folders taiyar karein
+          # Create sub-folders in main dist
           mkdir -p ./dist/padhle-akshay
           mkdir -p ./dist/vidyakul
           
-          # 2. Padhle Akshay (Safe Copy)
+          # 1. Padhle Akshay (Always Protected)
           cp -rf ./padhle-akshay/dist/* ./dist/padhle-akshay/
           cp ./padhle-akshay/dist/index.html ./dist/padhle-akshay/404.html
           
-          # 3. Vidyakul (Sirf tab copy hoga jab build success ho)
+          # 2. Vidyakul (Copy only if build succeeded)
           if [ -d "./vidyakul/dist" ]; then
             cp -rf ./vidyakul/dist/* ./dist/vidyakul/
             cp ./vidyakul/dist/index.html ./dist/vidyakul/404.html
           fi
           
-          # 4. Domain fix
+          # 3. Maintain CNAME for Custom Domain
           cp CNAME ./dist/ 2>/dev/null || echo "edusparkofficial.site" > ./dist/CNAME
 
       - uses: actions/upload-pages-artifact@v3
