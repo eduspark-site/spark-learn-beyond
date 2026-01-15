@@ -35,6 +35,8 @@ jobs:
         run: |
           mkdir -p ./dist/padhle-akshay
           cp -rf ./padhle-akshay/dist/* ./dist/padhle-akshay/
+          cp ./padhle-akshay/dist/index.html ./dist/padhle-akshay/404.html
+          cp CNAME ./dist/ 2>/dev/null || echo "edusparkofficial.site" > ./dist/CNAME
 
       - uses: actions/upload-pages-artifact@v3
         with:
