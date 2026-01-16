@@ -9,7 +9,8 @@ const institutions = [
     name: "Vidyakul",
     logo: "https://i.postimg.cc/CLXDdSBQ/images-(2).png",
     description: "India's first vernacular e-learning platform that empowers state-board students by providing high-quality education in their native regional languages.",
-    link: "https://eduspark-vidyakul.netlify.app",
+    link: "/vidyakul/",
+    directLink: true,
   },
   {
     name: "Padhle Akshay",
