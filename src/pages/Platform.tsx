@@ -3,20 +3,21 @@ import { BookOpen, GraduationCap, Library, Sparkles } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import InstitutionCard from "@/components/InstitutionCard";
 import OwnerSection from "@/components/OwnerSection";
+import notesBloomLogo from "@/assets/notes-bloom-logo.jpg";
 
 const institutions = [
   {
     name: "Vidyakul",
     logo: "https://i.postimg.cc/CLXDdSBQ/images-(2).png",
     description: "India's first vernacular e-learning platform that empowers state-board students by providing high-quality education in their native regional languages.",
-    link: "/vidyakul/",
+    link: "https://eduspark-vidyakul.netlify.app",
     directLink: true,
   },
   {
     name: "Padhle Akshay",
     logo: "https://i.postimg.cc/FK9KHBZw/images.jpg",
     description: "A popular community-driven platform known for its 'brother-like' teaching vibe, offering humorous meme-based booklets and simplified notes to turn 'backbenchers into toppers.'",
-    link: "/padhle-akshay/",
+    link: "https://eduspark-padhleakshay.netlify.app/",
     directLink: true,
   },
   {
@@ -47,17 +48,27 @@ const treasureChestItems = [
     name: "Edu's Khazana",
     logo: "https://i.postimg.cc/VNbCXTMP/1768150071312.png",
     description: "Your ultimate treasure chest of knowledge! Access FREE books, notes, and study materials for all competitive exams. Every resource a student needs, all in one place.",
-    link: "https://telegram.me/eduskhazana",
+    link: "https://khzana-reloaded.vercel.app/",
     featured: true,
+    directLink: true,
   },
   {
     name: "Tech Shivam",
     subtitle: "A part of Eduspark",
     logo: "https://i.postimg.cc/dtnfff9q/IMG-20260113-025520-247.jpg",
     description: "Get all MOD apks and premium unlocked Apps - Safe, fast & 100% working.",
-    link: "https://t.me/+eoVUJRuHY401ZDJl",
+    link: "https://ts-hub-official.vercel.app/",
     featured: true,
-    directLink: true, // Skip popup, go directly
+    directLink: true,
+  },
+  {
+    name: "Notes Bloom",
+    subtitle: "Powered by Eduspark",
+    logo: notesBloomLogo,
+    description: "Your go-to destination for comprehensive study notes and educational resources. Bloom your knowledge with quality notes!",
+    link: "https://notes-bloom.vercel.app/",
+    featured: true,
+    directLink: true,
   },
 ];
 
@@ -177,7 +188,7 @@ const Platform = () => {
           </motion.div>
 
           <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
